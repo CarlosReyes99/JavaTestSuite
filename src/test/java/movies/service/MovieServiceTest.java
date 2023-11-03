@@ -40,8 +40,9 @@ class MovieServiceTest {
                         new Movie(3, "There's Something About Marty", 119, Genre.COMEDY),
                         new Movie(4, "Super 8", 112, Genre.THRILLER),
                         new Movie(5, "Scream", 112, Genre.HORROR),
-                        new Movie(6, "Home Alone", 112, Genre.COMEDY),
-                        new Movie(7, "Matrix", 136, Genre.ACTION)
+                        new Movie(6, "HomeAlone", 112, Genre.COMEDY),
+                        new Movie(7, "Home Test", 112, Genre.COMEDY),
+                        new Movie(8, "Matrix", 136, Genre.ACTION)
                 )
         );
         movieService = new MovieService(movieRepository);
@@ -62,8 +63,15 @@ class MovieServiceTest {
 
         Collection<Movie> movies= movieService.findMovieByDuration(150);
         List<Integer> movieIds = getIntegers(movies);
-        assertThat(movieIds, CoreMatchers.is(Arrays.asList(2,3,4,5,6,7)));
+        assertThat(movieIds, CoreMatchers.is(Arrays.asList(2, 3, 4, 5, 6, 7, 8)));
 
+    }
+
+    @Test
+    void returnMoviesByName() {
+        Collection<Movie> movies= movieService.findMovieByName("Home");
+        List<Integer> movieIds= getIntegers(movies);
+        assertThat(movieIds, CoreMatchers.is(Arrays.asList(6, 7)));
     }
 
     private static List<Integer> getIntegers(Collection<Movie> movies) {

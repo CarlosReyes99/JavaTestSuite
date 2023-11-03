@@ -22,6 +22,7 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
+
     /**
      * Obtiene las películas de un género determinado.
      *
@@ -31,6 +32,8 @@ public class MovieService {
     public Collection<Movie> findMovieByGenre(Genre genre) {
         return movieRepository.findAll().stream().filter(movie -> movie.getGenre() == genre).collect(Collectors.toList());
     }
+
+
     /**
      * Obtiene las películas con una duración menor o igual al parámetro.
      *
@@ -39,6 +42,18 @@ public class MovieService {
      */
     public Collection<Movie> findMovieByDuration(int minutes) {
         return movieRepository.findAll().stream().filter(movie -> movie.getMinutes() <= minutes).collect(Collectors.toList());
+    }
+
+    /**
+     * Obtiene las películas con un nombre igual o similar
+     *
+     * @param movieName nombre de películas a buscar.
+     * @return lista de películas que contengan ese string
+     */
+    public Collection<Movie> findMovieByName(String movieName) {
+        return movieRepository.findAll().stream()
+                .filter(movie -> movie.getName().toLowerCase().contains(movieName.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
 }
