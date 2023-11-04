@@ -56,4 +56,9 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
+    public Collection<Movie> findMovieByDirector(String nameDirector) {
+        return movieRepository.findAll().stream()
+                .filter(movie -> movie.getDirector1().toLowerCase().contains(nameDirector.toLowerCase()))
+                .collect(Collectors.toList());
+    }
 }

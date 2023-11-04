@@ -42,7 +42,8 @@ class MovieServiceTest {
                         new Movie(5, "Scream", 112, Genre.HORROR, "Wes Craven", "Cathy Konrad"),
                         new Movie(6, "Home Alone", 112, Genre.COMEDY, "Chris Columbus", "John Hughes"),
                         new Movie(7, "Home Test", 112, Genre.COMEDY, "Chris Columbus", "John Hughes"),
-                        new Movie(8, "Matrix", 136, Genre.ACTION, "Lana Wachowski", "Lilly Wachowski")
+                        new Movie(8, "Matrix", 136, Genre.ACTION, "Lana Wachowski", "Lilly Wachowski"),
+                        new Movie(9, "Dark Knight", 152, Genre.ACTION, "Christopher Nolan", "Emma Thomas")
                 )
         );
         movieService = new MovieService(movieRepository);
@@ -73,6 +74,15 @@ class MovieServiceTest {
         List<Integer> movieIds= getIntegers(movies);
         assertThat(movieIds, CoreMatchers.is(Arrays.asList(6, 7)));
     }
+
+
+    @Test
+    void returnMoviesByDirector() {
+        Collection<Movie> movies= movieService.findMovieByDirector("Christopher");
+        List<Integer> movieIds= getIntegers(movies);
+        assertThat(movieIds, CoreMatchers.is(Arrays.asList(1, 9)));
+    }
+
 
 
 
