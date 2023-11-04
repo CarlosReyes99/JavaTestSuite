@@ -35,14 +35,14 @@ class MovieServiceTest {
         MovieRepository movieRepository= Mockito.mock(MovieRepository.class);
         Mockito.when(movieRepository.findAll()).thenReturn(
                 Arrays.asList(
-                        new Movie(1, "Dark Knight", 152, Genre.ACTION),
-                        new Movie(2, "Memento", 113, Genre.THRILLER),
-                        new Movie(3, "There's Something About Marty", 119, Genre.COMEDY),
-                        new Movie(4, "Super 8", 112, Genre.THRILLER),
-                        new Movie(5, "Scream", 112, Genre.HORROR),
-                        new Movie(6, "HomeAlone", 112, Genre.COMEDY),
-                        new Movie(7, "Home Test", 112, Genre.COMEDY),
-                        new Movie(8, "Matrix", 136, Genre.ACTION)
+                        new Movie(1, "Dark Knight", 152, Genre.ACTION, "Christopher Nolan", "Emma Thomas"),
+                        new Movie(2, "Memento", 113, Genre.THRILLER, "Quentin Tarantino", "Lawrence Bender"),
+                        new Movie(3, "There's Something About Marty", 119, Genre.COMEDY, "Martin Scorsese", "Jane Rosenthal"),
+                        new Movie(4, "Super 8", 112, Genre.THRILLER, "Steven Spielberg", "J.J. Abrams"),
+                        new Movie(5, "Scream", 112, Genre.HORROR, "Wes Craven", "Cathy Konrad"),
+                        new Movie(6, "Home Alone", 112, Genre.COMEDY, "Chris Columbus", "John Hughes"),
+                        new Movie(7, "Home Test", 112, Genre.COMEDY, "Chris Columbus", "John Hughes"),
+                        new Movie(8, "Matrix", 136, Genre.ACTION, "Lana Wachowski", "Lilly Wachowski")
                 )
         );
         movieService = new MovieService(movieRepository);
@@ -55,7 +55,7 @@ class MovieServiceTest {
 
         Collection<Movie> movies= movieService.findMovieByGenre(COMEDY);
         List<Integer> movieIds= getIntegers(movies);
-        assertThat(movieIds, CoreMatchers.is(Arrays.asList(3,6)));
+        assertThat(movieIds, CoreMatchers.is(Arrays.asList(3,6, 7)));
 
     }
     @Test
@@ -73,6 +73,8 @@ class MovieServiceTest {
         List<Integer> movieIds= getIntegers(movies);
         assertThat(movieIds, CoreMatchers.is(Arrays.asList(6, 7)));
     }
+
+
 
     private static List<Integer> getIntegers(Collection<Movie> movies) {
         return movies.stream().map(movie -> movie.getId()).collect(Collectors.toList());

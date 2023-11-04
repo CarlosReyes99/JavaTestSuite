@@ -30,7 +30,7 @@ public class MovieRepositoryJdbc implements MovieRepository {
 
     @Override
     public void saveOrUpdate(Movie movie) {
-        jdbcTemplate.update("INSERT INTO movies (name, minutes, genre) VALUES (?, ?, ?)", movie.getName(), movie.getMinutes(), movie.getGenre().toString());
+        jdbcTemplate.update("INSERT INTO movies (name, minutes, genre, director1, director2) VALUES (?, ?, ?, ?, ?)", movie.getName(), movie.getMinutes(), movie.getGenre().toString(), movie.getDirector1(), movie.getDirector2());
 
     }
 
@@ -39,7 +39,11 @@ public class MovieRepositoryJdbc implements MovieRepository {
                 resultSet.getInt("id"),
                 resultSet.getString("name"),
                 resultSet.getInt("minutes"),
-                Genre.valueOf(resultSet.getString("genre")));
+                Genre.valueOf(resultSet.getString("genre")),
+                resultSet.getString("director1"),
+                resultSet.getString("director2")
+
+        );
     };
 
 }

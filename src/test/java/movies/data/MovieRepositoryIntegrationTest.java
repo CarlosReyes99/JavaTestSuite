@@ -21,6 +21,7 @@ class MovieRepositoryIntegrationTest {
 
     private MovieRepositoryJdbc movieRepository;
     DataSource dataSource;
+    JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() throws SQLException {
@@ -31,7 +32,7 @@ class MovieRepositoryIntegrationTest {
         ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("sql-scripts/test-data.sql"));
 
         // Configurar un objeto JdbcTemplate para interactuar con la base de datos
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+         jdbcTemplate = new JdbcTemplate(dataSource);
 
         // Crear un repositorio de películas utilizando JdbcTemplate
         movieRepository = new MovieRepositoryJdbc(jdbcTemplate);
@@ -47,9 +48,9 @@ class MovieRepositoryIntegrationTest {
 
         // Crear una lista de películas esperada
         Collection<Movie> expectedMovies = Arrays.asList(
-                new Movie(1, "Dark Knight", 152, Genre.ACTION),
-                new Movie(2, "Memento", 113, Genre.THRILLER),
-                new Movie(3, "Matrix", 136, Genre.ACTION)
+                new Movie(1, "Dark Knight", 152, Genre.ACTION, "Christopher Nolan", "Emma Thomas" ),
+                new Movie(2, "Memento", 113, Genre.THRILLER, "Quentin Tarantino", "Lawrence Bender"),
+                new Movie(3, "Matrix", 136, Genre.ACTION, "Lana Wachowski", "Lilly Wachowski")
         );
 
         // Verificar si la colección de películas obtenida es igual a la lista esperada
@@ -64,7 +65,7 @@ class MovieRepositoryIntegrationTest {
         Movie movieFind = movieRepository.findById(2);
 
         //Se verifica que movieFind sea igual a la movie que se espera
-        Assertions.assertEquals(new Movie(2, "Memento", 113,Genre.THRILLER ), movieFind);
+        Assertions.assertEquals(new Movie(2, "Memento", 113,Genre.THRILLER, "Quentin Tarantino", "Lawrence Bender" ), movieFind);
 
 
     }
@@ -73,7 +74,8 @@ class MovieRepositoryIntegrationTest {
     @Test
     void insert_movies_into_db() {
         //Se crea nueva movie sin id, porque id es autoincrementable
-        Movie movie = new Movie("V de venganza", 132, Genre.DRAMA);
+        Movie movie = new Movie(9, "V de Venganza", 132, Genre.DRAMA, "Nora Director", "Daniel Director");
+
 
         //Se pasa movie a saveOrUpdate para la insercion
         movieRepository.saveOrUpdate(movie);
@@ -82,8 +84,11 @@ class MovieRepositoryIntegrationTest {
         Movie movieFromDb = movieRepository.findById(4);
 
         //Se hace la comprobación de que movie exista en DB
-        Assertions.assertEquals(movieFromDb, new Movie(4,"V de venganza", 132, Genre.DRAMA));
+        Assertions.assertEquals(movieFromDb, new Movie(4, "V de Venganza", 132, Genre.DRAMA, "Nora Director", "Daniel Director"));
     }
 
-
+    @AfterEach
+    void tearDown() {
+        jdbcTemplate.execute("DROP ALL OBJECTS DELETE FILES");
+    }
 }
