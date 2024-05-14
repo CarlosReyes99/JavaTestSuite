@@ -27,7 +27,7 @@ public class PasswordUtil {
                 System.out.println("Entramos en nivel de seguridad medio");
                 return SecurityLevel.MEDIUM;
             }
-            if (password.length() >= 12 && password.matches("^[a-zA-Z0-9\\W]+$") && password.matches(".*[\\W].*")) {
+            if (password.length() >= 8 && password.matches("^[a-zA-Z0-9\\W]+$") && password.matches(".*[\\W].*")) {
                 System.out.println("Entramos a nivel de seguridad alto");
                 return SecurityLevel.STRONG;
             }

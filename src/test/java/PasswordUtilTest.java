@@ -7,7 +7,7 @@ class PasswordUtilTest {
 
     @Test
     public void null_when_password_is_too_long() {
-        assertEquals(null, PasswordUtil.assesPassword("asdfqwerto1234555"));
+        assertEquals(null, PasswordUtil.assesPassword("asdfqwerto123455"));
     }
     @Test
     public void null_when_password_is_too_short() {
@@ -30,7 +30,7 @@ class PasswordUtilTest {
     }
     @Test
     public void strong_when_has_letters_numbers_symbols() {
-        assertEquals(PasswordUtil.SecurityLevel.STRONG, PasswordUtil.assesPassword("123asdf!AD##@"));
+        assertEquals(PasswordUtil.SecurityLevel.STRONG, PasswordUtil.assesPassword("12abcdFG."));
     }
 
 
